@@ -18,7 +18,6 @@ export class AuthService {
         try {
             const userAccount = await this.account.create(ID.unique(), email, password, name);
             if (userAccount) {
-                // call another method
                 return this.login({email, password});
             } else {
                return  userAccount;
@@ -36,21 +35,15 @@ export class AuthService {
         }
     }
 
-	async getCurrentUser() {
-		try {
-			const user = await this.account.get();
-			return user;
-		} catch (error) {
-			if (error.code === 401) {
-				console.error("User is not authenticated. Please log in.");
-			} else {
-				console.error("Error fetching user:", error);
-			}
-		}
-	
-		return null;
-	}
-	
+    async getCurrentUser() {
+        try {
+            return await this.account.get();
+        } catch (error) {
+            console.log("Appwrite serive :: getCurrentUser :: error", error);
+        }
+
+        return null;
+    }
 
     async logout() {
 
